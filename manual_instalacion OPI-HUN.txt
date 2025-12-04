@@ -1,0 +1,220 @@
+Manual de Instalación del Sistema OPI – HUN
+
+1. Requisitos previos
+
+Antes de iniciar, asegúrese de tener: - Una cuenta con permisos de:
+
+- edición en PowerApps, Power Automate y SharePoint. 
+- Acceso al SharePoint de la organización. 
+- El archivo Excel suministrado para el sistema. 
+- Permisos para crear grupos en Microsoft Teams.
+
+------------------------------------------------------------------------
+
+2. Importar la Aplicación en PowerApps
+
+	1.  Abra PowerApps.
+	2.  Vaya a Apps → Importar aplicativo .msapp.
+	3.  Durante la importación, revisar las conexiones solicitadas:
+    		-   Omita o ignore las conexiones antiguas.
+    		-   Se recrearán posteriormente con las nuevas listas y grupos.
+	4.  Creación de las listas de SharePoint Crear en el SharePoint de la organización las siguientes listas:
+
+------------------------------------------------------------------------
+
+3. Crear las Listas de SharePoint
+
+	1 Lista: “Camas HUN”
+
+	Cree una lista nueva llamada Camas HUN con los siguientes campos:
+
+  	-----------------------------------------------------------------------
+  	Nombre del Campo                               Tipo de Datos
+  	---------------------------------------------- ------------------------
+  	ID                                             Número
+
+  	Piso                                           Número
+
+  	Habitacion                                     Número
+
+  	Cama                                           Número
+
+  	Estado                                         Opción (Medicina,
+                                                 Enfermeria, Facturacion,
+                                                 Referencia, Aseo)
+
+  	Paciente                                       Texto
+
+  	Hora Inicio Egreso                             Fecha y hora
+
+  	Necesidad TICS                                 Sí/No
+
+  	Enviado a TICS por                             Texto
+
+  	TimeSnap TICS                                  Fecha y hora
+
+  	TimeSnap end TICS                              Fecha y hora
+
+  	ID Medico                                      Número
+
+  	Hora check medico                              Fecha y hora
+
+  	ID Enfermeria                                  Número
+
+  	TimeSnam check Enfermeria                      Fecha y hora
+
+  	ID Facturacion                                 Número
+
+ 	TimeSnap Check Facturacion                     Fecha y hora
+
+  	ID Referencia                                  Número
+
+  	TimeSnap Check Referencia                      Fecha y hora
+
+  	ID Aseo                                        Número
+
+  	TimeSnap Check Aseo                            Fecha y hora
+
+  	Imagen                                         Texto
+
+  	Tipo de elemento                               Texto
+
+  	Ruta de acceso                                 Texto
+  	-----------------------------------------------------------------------
+
+	------------------------------------------------------------------------
+
+	2 Lista: “Usuarios OPI”
+
+	Cree una lista llamada Usuarios OPI con los campos:
+
+  	-----------------------------------------------------------------------
+  	Nombre del Campo                                     Tipo
+ 	 ---------------------------------------------------- ------------------
+  	Usuario                                              Texto
+
+ 	Rol                                                  Opción (Medicina,
+     		                                                  Enfermeria,
+      		                                                 Facturacion,
+      		                                                 Referencia, Aseo)
+  	-----------------------------------------------------------------------
+
+------------------------------------------------------------------------
+
+4. Crear los Grupos de Teams
+
+Debe crear cinco grupos de Teams, uno por área:
+
+-   Medicina
+-   Enfermeria
+-   Facturacion
+-   Referencia
+-   Aseo
+
+Anote el ID del grupo o correo del grupo, ya que será necesario para el
+Flow.
+
+------------------------------------------------------------------------
+
+5. Crear el Archivo Excel
+
+	1. Crear un Excel del proyecto en el SharePoint donde están las listas en la carpeta documentos
+	2. Crear una tabla (nombrar la tabla, sugerencia: egresos) con los siguientes campos:
+ 	 ----------------------------------------------
+	  Nombre del Campo                               
+ 	 ---------------------------------------------- 
+	  ID                                            
+
+	  Piso                                           
+
+	  Habitacion                                     
+
+	  Cama                                           
+
+	  Estado                                         
+
+ 	  Paciente                                       
+
+  	  Hora Inicio Egreso                             
+
+  	  Necesidad TICS                                 
+
+	  Enviado a TICS por                             
+
+  	  TimeSnap TICS                                  
+
+  	  TimeSnap end TICS                              
+
+  	  ID Medico                                      
+
+  	  Hora check medico                              
+
+  	  ID Enfermeria                                  
+
+  	  TimeSnam check Enfermeria                      
+
+  	  ID Facturacion                                 
+
+   	  TimeSnap Check Facturacion                     
+
+  	  ID Referencia                                  
+
+  	  TimeSnap Check Referencia                      
+
+  	  ID Aseo                                        
+
+  	  TimeSnap Check Aseo                            
+ 	 -----------------------------------------------------------------------
+
+------------------------------------------------------------------------
+
+6. Creación de grupos de Teams por área Se deben crear grupos o equipos en Microsoft Teams para cada área del hospital u organización.
+   
+-   Equipo “Medicina”
+-   Equipo “Enfermeria”
+-   Equipo “Facturacion”
+-   Equipo “Referencia”
+-   Equipo “Aseo”
+
+Pasos: 
+	1. Abrir Teams → Crear equipo. 
+	2. Elegir “Equipo desde cero”. 
+	3. Seleccionar tipo “Privado” o “Público” según necesidad. 
+	4. Agregar los usuarios correspondientes.
+	5. Registrar el ID del grupo si será usado por Automate.
+
+7.  Rehacer las conexiones del Flow en Power Automate
+	1.  Abrir Power Automate.
+	2.  Ir a ‘Mis flujos’ → seleccionar el flujo del proyecto.
+	3.  Entrar a ‘Editar’.
+	4. Cada acción con error de conexión debe ser reconectada:
+   	  -   Conexión a SharePoint → elegir el sitio donde están las listas “Camas HUN” y “Usuarios OPI”.
+  	  -   Conexión a Excel → elegir el archivo Excel cargado en SharePoint.
+  	  -   Conexión a Teams → seleccionar los grupos recién creados.
+8. Para los pasos que usan IDs de grupos o listas:
+    	 -   Actualizar manualmente los nuevos IDs dentro de las acciones.
+   	 -   Verificar que cualquier paso con “Enviar mensaje” tenga el grupo adecuado.
+	 -   En caso de ser miembro de los grupos estos aparecerán como opciones
+9. Validación final
+
+	 -   Abrir PowerApps y verificar que: 
+	   	-   Que carga la lista Camas HUN.
+   		-   Que reconoce usuarios desde Usuarios OPI.
+    		-   Que dispara correctamente los flujos hacia Teams.
+	 -   Probar los egresos desde medicina hasta Aseo.
+	 -   Confirmar que:
+    		-   Las listas reciben datos correctamente.
+    		-   Los flujos ejecutan sin errores.
+    		-   Los mensajes o notificaciones llegan a los grupos de Teams.
+    		-   El Excel se actualiza si corresponde.
+
+------------------------------------------------------------------------
+ 
+
+------------------------------------------------------------------------
+
+8. Finalización
+
+El sistema quedará operativo cuando: - La app funcione sin errores. -
+Los flujos envíen notificaciones correctamente. - Las listas reciban y
+actualicen datos sin advertencias.
